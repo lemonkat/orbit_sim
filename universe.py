@@ -11,7 +11,7 @@ class Universe:
 		self.canvas = Canvas(Tk(), height=size*scale, width=size*scale, bg="#fff")
 
 	def add_planet(self, x, y, xvel, yvel, mass, size, color):
-		self.planets.append(Planet(x, y, xvel, yvel, mass, size, color, self))
+		self.planets.append(Planet(x, y, xvel, yvel, mass, size, color))
 
 	def lock(self):
 		shift_x = 0
@@ -39,7 +39,7 @@ class Universe:
 
 	def step(self, t):
 		for p in self.planets:
-			p.compute_vel_change(t)
+			p.compute_vel_change(self.planets, self.grav)
 		for p in self.planets:
 			p.move(t)
 
@@ -48,6 +48,6 @@ class Universe:
 	def paint(self):
 		self.canvas.delete("all")
 		for p in self.planets:
-			p.paint()
+			p.paint(self.canvas, self.size, self.scale)
 		self.canvas.pack()
 		self.canvas.update()
